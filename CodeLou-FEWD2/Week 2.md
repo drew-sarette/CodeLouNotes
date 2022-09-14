@@ -15,6 +15,42 @@ while (condition) {
 }
 ```
 
+## for ... in
+loops over the keys in an object or the indexes in an array
+
+```
+const platypus = {
+	name: "perry",
+	hat: "fedora",
+	type: "mammal",
+	limbs: 5
+}
+
+for (let key in platypus) {
+	console.log(key, platypus[key]);
+}
+
+//name perry
+//hat fedora
+//type mammal
+//limbs 5
+```
+
+## for ... of
+loops over the values in an iterable object. Less used than for...in
+
+```
+let inventory = ["knife","rabbit's foot", "piece of string", "lint"];
+
+for (let prop of inventory) {
+	console.log(prop);
+}
+
+//"knife"
+//"rabbit's foot"
+//"piece of string"
+//"lint"
+```
 ## do ... while
 do {
 	//statement

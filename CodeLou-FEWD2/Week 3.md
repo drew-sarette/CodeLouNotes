@@ -135,6 +135,7 @@ let greeting = () => 'hello';
 
 //for one param, it looks like this
 let greeting = name => 'hello ' + name; 
+```
 
 ## call, apply, and bind
 

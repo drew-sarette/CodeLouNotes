@@ -38,7 +38,11 @@ If quotations are inside a string, alternating levels of "" and '' must be used.
 ## Boolean
 Simply true or false
 ## Null
+A variable is intentionally assigned null to show it is empty
 ## Undefined
+Undefined is returned when a variable is unintentionally left empty.
+- when a variable is created but not initialized, it is undefined.
+- the value of a non-existing key in an object is undefined.
 ## Symbol
 # Declaration
 - const cannot be reassigned or redeclared

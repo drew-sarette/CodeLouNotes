@@ -12,6 +12,7 @@ To use modules:
 - use type="module" in your script tag
 
 ## Exports
+
 ### Named Exports
 Can just use 'export' before any top level variable, function, etc...
 

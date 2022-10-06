@@ -38,3 +38,26 @@ function printNumbers(from, to) {
 }
 printNumbers(1, 5);
 ```
+This method is more flexible than setInterval(), as the next setTimeout can be decided in the function.
+
+# setInterval
+If the function is to be called in a repeating interval that is always the same, use setInterval() and clearInterval():
+```
+// repeat with the interval of 2 seconds
+let timerId = setInterval(() => alert('tick'), 2000);
+
+// after 5 seconds stop
+setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
+```
+# Caveat
+setTimeout and setInterval schedule functions to be called. The browser or Node only start the schedule when the current script has finished.
+```
+let i = 0;
+setTimeout(() => {
+  alert(i)
+}, 5000);
+for (let j = 0; j <= 10; j++) {
+  i++;
+}
+//alert is called after the for loop, so the delay is the specified time, plus the time for the script to complete.
+```

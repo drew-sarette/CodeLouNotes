@@ -17,12 +17,37 @@ used to avoid poluting global variables.
 })(); // the closing () invokes the function.
 ```
 # Closures
-Q: is there a practical reason we should know about closures?
-a closure is the combination of a function and the lexical environment within which that function was created.
+A closure is the combination of a function and the lexical environment within which that function was created.
 
-if a function returns another function, the inside function is not executed until the outside function is invoked.
+If a function returns another function, the inside function is not executed until the outside function is invoked.
 
-that inside function then has access to its own scope + its parent's scope because of lexical scoping.
+That inside function then has access to its own scope + its parent's scope because of lexical scoping.
+
+Closures are usefull for creating a family of related functions:
+```
+
+```
+
+a closure can be used to "memoize" a function. A memoized function stores its previous values in a private cache, and only computes new values if it has not done so already:
+
+```
+const lenghtyCalc = memoizedLenghtyCalc();
+// memoizedLengthyCalc returns a function, not a value. LengthyCalc is called to calculate a result. It has access to the cache in the memoized function through the closure.
+
+function memoizedlengthyCalc(x){
+    let cache = {};
+    return function (x){
+        if (x in cache){
+            return cache[x];
+        }
+        let result = someFormulaHere(x);
+        cache[x] = result;
+        return result;
+    }
+}
+```
+
+
 
 # Arrow functions
  A simpler and more compact way to write functions:

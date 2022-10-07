@@ -23,6 +23,7 @@ clearTimeout(timerId); //timer cancelled
 console.log(timerId); //id is still there 
 ```
 Note: it is best to clearTimeout every single setTimeout, since setTimeout saves the function *and* its lexical environment until clearTimeout is called. 
+Note: Michael says that when setTimeout calls the function, it is garbage collected and does not need to be cleared. Only need to clear setInterval, or setTimeout if it needs to be cancelled.
 
 # Nested setTimeout
 setTimeout can be nested to create a repeating timed event:

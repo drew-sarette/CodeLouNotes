@@ -47,11 +47,19 @@ function memoizedlengthyCalc(x){
 }
 ```
 
-
-
 # Arrow functions
  A simpler and more compact way to write functions:
 - no "function" or "return" keywords
 - no parentheses or brackets whatsoever
 - just an argument (or multiple arguments in parentheses) followed by => and the statement to perform
+```
+const someFunction = () => console.log("function output");
+
+const someFunction = x => console.log(x);
+
+const someFunction = (arg1, arg2, ...rest) => {
+    const result = arg1 + arg2;
+    return result;
+};
+
 

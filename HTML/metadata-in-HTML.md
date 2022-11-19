@@ -64,9 +64,11 @@ There are several ways to load scripts into your HTML, but the best way is to in
 
 ## Setting the language
 For accessibility and better SEO, set the lang attribute for the page in the opening html tag:
-```<html lang="en-US">
+```
+<html lang="en-US">
   …
-</html>```
+</html>
+```
 You can also set the language attribute for subsections by adding a lang attribute to child elements.
 
 For information on links: [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1)

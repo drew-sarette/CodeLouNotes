@@ -79,3 +79,28 @@ childMethod() {
 ```
 to make the child method include and expand on the parent's logic.
 
+## Singletons 
+A singleton is an instance of a class that can only have one instance. If the constructor is called multiple times, it will return the same object.  This can be implemented many ways in JS. Here is an example using a settings object:
+```
+class Settings {
+    constructor() {
+        if (Settings.instance instanceof Settings) { 
+            return Settings.instance; // Use previous settings instance if it has already been called
+        }
+
+        this.settingsObject = {
+            background: 'mauve',
+            version: Math.floor(Math.random() * 3000)
+        }
+
+        Object.freeze(this.settingsObject); // prevent the settingsObject from being changed
+        Object.freeze(this); // prevent the Settings instance from being changed
+        Settings.instance = this; // store the first instance on the class. 
+    }
+
+    get(key) {
+        return this.settingsObject[key];
+    }
+}
+```
+

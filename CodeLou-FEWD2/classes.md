@@ -104,3 +104,38 @@ class Settings {
 }
 ```
 
+## Binding to html
+This class creates a binding to an HTML element ( ul or ol )that is passed into the constructor. The instance then maintains a list of items that can be modified by the add, clear, and update methods.  The static method, which does not refer to ```this``` is used as a utility to keep all the fiddly bits of dom manipulation contained in the class.
+
+```
+export class ListBinding {
+  constructor(element) {
+    this.listItems = [];
+    this.element = element;
+  }
+
+  static makeLi(item) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    return li;
+  }
+
+  add(item) {
+    this.listItems.push(item);
+    this.update();
+  }
+
+  clear() {
+    this.listItems = [];
+    this.update();
+  }
+
+  update() {
+    this.element.innerHTML = null;
+    for (const item of this.listItems) {
+      this.element.appendChild(ListBinding.makeLi(item));
+    }
+  }
+}
+```
+

@@ -68,3 +68,62 @@ template.innerHTML = `
 
 class ClassName .....
 `
+
+With this setup, an h1 with "specific content for the page" will appear in the custom element.
+
+# Styling custom components
+Certain, but not all, styles will cascade from the page into a custom element. Things such as font-family, color, font-size etc... that relate to the text will cascade in. Others may not.
+
+To style just the component, you can create a style tag inside the template, and those styles will not affect anything else on the page because they are encapsulated in the shadow DOM.
+
+`
+template.innerHTML = `
+    <style>
+      div {
+        <!-- rules here -->
+      }
+
+      :host {
+        <!-- these styles for the shadow root. The default is display: inline, so you will not see any styles you put here unless you change that. The content you see is spilling out of the shadow root. -->
+        display: block;
+        background: lilac;
+      }
+
+      :host(class-name) {
+        <!-- these styles only apply if the host is a <class-name> element -->
+      }
+
+      :host-context(main) {
+        <!-- these styles only apply if the host is inside a <main> -->
+      }
+
+      ::slotted(img) {
+        <!-- style any slotted image. These styles are applied when the element is created, so they will be overwritten by anything in the regular css files. May need to use !important here if it is a text style. -->
+        ::part() {
+            <!-- part doesnt go here, but in the main css file. that way a part of the component with part="thing" can be styled externally by using ::part(thing) -->
+        }
+      }
+    </style>
+    <div>
+        <button class="decrement"><img src="img/decrement.png"></button>
+        <slot name="icon"></slot>
+        <button class="increment"><img src="img/increment.png"></button>
+    </div>`;
+`
+
+# Attributes and Properties
+You can allow your element to have custom attributes using the static method get observedAttributes();
+`
+class FoodGroup extends HTMLElement {
+  constructor() {
+    super();
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    const clone = template.content.cloneNode(true);
+    shadowRoot.appendChild(clone);
+  }
+
+  static get observedAttributes() {
+    return ["counts", "step", "current", "goal"]
+  }
+`
+

@@ -122,8 +122,26 @@ class FoodGroup extends HTMLElement {
     shadowRoot.appendChild(clone);
   }
 
+  //This sets the extra attributs the component is allowed to have. It can still have id, class, etc...
   static get observedAttributes() {
     return ["counts", "step", "current", "goal"]
   }
-`
 
+  //This gives the element the property "counts" by returning the value of the attribute "counts"
+  get counts() {
+    return this.getAttribute("counts")
+  }
+
+  //This sets the attribute "counts" to the property "counts". Now the property is synced to the attribute.
+  set counts(value) {
+    return this.setAttribut("counts", value)
+  }
+
+//This callback fires when an attribute is changed. It has access to the three named params.
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name.toLowerCase() === "counts") {
+      console.log("The value of counts attribute was changed to " + newVal);
+    }
+  }
+`
+#

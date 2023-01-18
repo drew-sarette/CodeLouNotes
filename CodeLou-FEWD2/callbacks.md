@@ -9,7 +9,7 @@ Common uses include:
 - accessing variables in a closure
 
 ## Loading a resource
-It may take some time to load a sldkfjalskdfj;aslkfjlkjresource such as a script. If you need something from the script you are loading to be available for the next task, use a callback function that is called on the onload event:
+It may take some time to load a resource such as a script. If you need something from the script you are loading to be available for the next task, use a callback function that is called on the onload event:
 ```
 function loadScript(src, callback){
     let script = document.createElement("script");

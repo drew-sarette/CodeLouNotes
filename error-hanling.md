@@ -15,10 +15,13 @@ if there is a try/catch, throw will skip to the catch, and then the script will 
 try{
     throw "knife";//=> sends knife over to catch
     console.log("valid statement");// not executed
-}catch(error){
-    console.log("Caught", error);//=> "Caught knife"
 }
-console.log("ouch"); //=> "ouch"
+catch(error){
+    console.log("Caught " + error);//=> "Caught knife"
+}
+finally {
+    console.log("ouch"); //=> "ouch"
+}
 ```
 # Finally
 Finally will be executed, whether there is an error or not.

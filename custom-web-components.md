@@ -8,7 +8,7 @@ A few things to note:
 The shadow DOM API allows you to attach a hidden, second DOM tree to any node in the light DOM. The shadow root is the root element of the shadow dom. This allows you to encapsulate styles and functionality in your custom components, without them spilling out to the rest of the page. 
 
 ## Basic code outline
-`
+```
 class ClassName extends HTMLElement {
     constructor() {
         //Super is always called first to include the parent class.
@@ -25,11 +25,11 @@ class ClassName extends HTMLElement {
 }
 // After the class, you must register the new element:
 document.customElements.define("class-name", ClassName);
-`
+```
 
 ## Using Templates
 Templates provide a better way to visualize and write the inner content of the custom element.
-`
+```
 const template = document.createElement("template");
 template.innerHTML = `
    <!-- whatever html you want here! -->
@@ -47,11 +47,11 @@ class ClassName extends HTMLElement {
         shadowRoot.appendChild(clone);
     }
 }
-`
+```
 
 ## Using Slots with Templates
 When you actually create a custom element, you can insert variable content into your template using slots. The HTML:
-`
+```
 <class-name>
     <h1 slot="slot1">specific content for the page</h1>
 <\class-name>
@@ -67,7 +67,7 @@ template.innerHTML = `
 `;
 
 class ClassName .....
-`
+```
 
 With this setup, an h1 with "specific content for the page" will appear in the custom element.
 
@@ -76,7 +76,7 @@ Certain, but not all, styles will cascade from the page into a custom element. T
 
 To style just the component, you can create a style tag inside the template, and those styles will not affect anything else on the page because they are encapsulated in the shadow DOM.
 
-`
+```
 template.innerHTML = `
     <style>
       div {
@@ -109,11 +109,11 @@ template.innerHTML = `
         <slot name="icon"></slot>
         <button class="increment"><img src="img/increment.png"></button>
     </div>`;
-`
+```
 
 # Attributes and Properties
 You can allow your element to have custom attributes using the static method get observedAttributes();
-`
+```
 class FoodGroup extends HTMLElement {
   constructor() {
     super();
@@ -134,7 +134,7 @@ class FoodGroup extends HTMLElement {
 
   //This sets the attribute "counts" to the property "counts". Now the property is synced to the attribute.
   set counts(value) {
-    return this.setAttribut("counts", value)
+    return this.setAttribute("counts", value)
   }
 
 //This callback fires when an attribute is changed. It has access to the three named params.
@@ -143,5 +143,49 @@ class FoodGroup extends HTMLElement {
       console.log("The value of counts attribute was changed to " + newVal);
     }
   }
-`
-#
+```
+
+# Events and Behaviors 
+The custom elements specification includes several lifecycle callbacks in an element.
+they are : 
+- connectedCallback: invoked every time the element is appended into  a document-connected element. Happens each time the node is moved, and may happen before the elements contents are fully parsed.
+- disconnectedCallback: each time the custom element is removed from the DOM
+- attributeChangedCallback: see above. Only works on the attrs listed in get observedAttributes()
+- adoptedCallback: each time the element is moved to a new document. 
+
+# Event listeners and slots
+Event listeners may be added to any elements within the custom componenet inside of the constructor. Slotted elements may be selected by first selecting the slot itself, then getting its children using assignedNodes (for text or elements), or assignedElements (for just elements). Ex: 
+```
+let slot = shadowRoot.querySelector("selector here");
+let slotted1 = slot.assignedNodes()[0]; // an array of all assigned nodes is returned.
+slotted1.addEventListener("slotchanged", () => {})
+```
+The slotchanged event fires when the element with slot="whatever" is changed. It is rarely used, but sometimes needed.
+
+
+# calling a local function from a custom component
+The custom component can't easily access js code from outside of its own module.  All it has access to are the strings of its attributes. 
+However, you can give it an attribute, named "action" for example, and then look for that function on the window object, and then call it. That way the components user can supply a function that will run on some event within the component. 
+
+for example: 
+```
+static get observedAttributes() {
+  return [action]
+}
+
+get action() {
+  return this.getAttribute("action");
+
+}
+set action(val) {
+  return this.setAttribute("action", val);
+}
+
+// This checks the window for the function and returns the actual function if present, if not returns a default function provided elsewhere.
+shadowRoot.querySelector("***").addEventListener((e) => {
+  let action = (this.action && typeof window[this.action] === "function") ? window[this.action] : this.defaultAction;
+  action(e);
+})
+```
+
+

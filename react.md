@@ -184,5 +184,58 @@ This function outputs an array of Note components, each with unique props taken 
 
 T
 
+# Destructuring
+Arrays can be destructured using 
+```
+const example = [ "one", 2, "three" ];
+
+[ a, b, c ] = example;
+console.log(a, b, c) // => "one", 2, "three";
+```
+
+rest syntax can be used to split an array into a variable plus the other elements as a new array:
+```
+[x, ...rest] = example;
+console.log(x, rest); //=> "one", [2, "three"]
+```
+
+objects can be destructured using
+```
+const myObj = { name: "Drew",  epithet: "The Yellow Dart" };
+
+const { name, nickname = "Drewsky", epithet: moniker };
+console.log(name, nickname, moniker);
+// => "Drew", "Drewsky", "The Yellow Dart"
+```
+When destructuring objects, properties can be renamed using a semicolon. If a property is not in an object, it will return undefined. If a default value is supplied, it will use that. 
+
+destructuring can be used to get variables from nested objects and arrays:
+```
+const book = {
+  title: "How to Avoid Huge Ships",
+  pages: 492,
+  chapters: [
+    "Introduction",
+    "Barges",
+    "Aircraft Carriers",
+    "Pesky Pirates"
+  ]
+  author: {
+    first: "Anatoly",
+    last: "Bresznowsky",
+    children: [
+      "Anna",
+      "Marco",
+      "Pyotr"
+    ]
+  }
+}
+const { pubdate = "1972", title, chapters: [ firstChapter, ...rest ], author: { children: [firstborn] } } = book
+
+console.log(firstChapter, firstborn) //=> "Introduction", "Anna"
+```
+
+
+
 # hooks and state
 Hooks must be used inside of a functional component.

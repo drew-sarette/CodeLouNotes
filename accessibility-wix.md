@@ -18,3 +18,10 @@
 - Form field should have permanently visible lable.
 - Form field should have permanently visible submit message.
   
+## Colors and Text
+Wix themes have 5 colors, each in 5 shades. Number them 1-25. The important ones are:
+- 1 Background
+- 4 Accent color
+- 5 Main Text
+- 8 Action
+Colors 4, 5, and 8 must have a minimum contrast ratio of 4.5:1 to color 1. Use [WebAIM](https://webaim.org/resources/contrastchecker/) to check

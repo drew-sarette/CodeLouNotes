@@ -56,3 +56,8 @@ Alt Text should communicate the intended purpose of the image. Do not describe i
 
 ## Zoom
 Users should be able to zoom to 200% without any loss of funcionality, according to WCAG. Make sure that pinned elements do not overlap with anything important on zoom. 
+
+## Accessibility Statement
+Shows your users that you care about accessibilty. Sometimes a legal requirement. Users can find your contact info to report bugs, find workarounds for limitations, etc...
+Can generate an accessibility statement using [W3's accessibility statement generator](https://www.w3.org/WAI/planning/statements/generator/#create)
+Add it to your page using html embed

@@ -79,7 +79,19 @@ Scheduled jobs will only run on a published site!  You cannot schedule a job to 
 
 
 ### Expose APIs
-Create a plain .js file (not a web module) in the backend folder.
+- Create a http-functions.js file (not a web module) in the backend folder.
+- Functions are named ```export function <prefix>_<functionName>(request) { }```
+- Functions always run with permissions of an anonymous site visitor
+- Test your http functions using functional testing. You do not have to publish first.
+- Functional testing is not yet supported in Wix Studio
+- Must publish at least once before using testing or producion endpoints
+- Prod Endpoint for premium site: ```https://www.{user\_domain}/\_functions/<functionName>```
+- Testing endpoint for premium: ```https://{user\_name}.wixsite.com/{site\_name}/\_functions/<functionName>```
+- free production endpoint: ```https://www.{user\_domain}/\_functions-dev/<functionName>```
+- free testing endpoint: ```https://{user\_name}.wixsite.com/{site\_name}/\_functions-dev/<functionName>```
+
+
+
 
 ```
 import { created, serverError, ok } from 'wix-http-functions';
@@ -126,6 +138,49 @@ export async function get_listAllPlanets(request){
   return ok(response);
 }
 ```
+
+Can access query params like this: 
+```
+import {ok, notFound, serverError} from 'wix-http-functions';
+import wixData from 'wix-data';
+
+export function get_myFunction(request) {
+  // URL looks like: https://www.mysite.com/_functions/myFunction/John/Doe
+  let options = {
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  };
+  // query a collection to find matching items
+  return wixData.query("myUserCollection")
+    .eq("firstName", request.path[0])
+    .eq("lastName", request.path[1])
+    .find()
+    .then( (results) => {
+      // matching items were found
+      if(results.items.length > 0) {
+        options.body = {
+          "items": results.items
+        };
+        return ok(options);
+      }
+      // no matching items found
+      options.body = {
+        "error": `'${request.path[0]} ${request.path[1]}' was not found`
+      };
+      return notFound(options);
+    } )
+    // something went wrong
+    .catch( (error) => {
+      options.body = {
+        "error": error
+      };
+      return serverError(options);
+    } );
+}
+
+```
+
 
 
 

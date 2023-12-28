@@ -60,3 +60,75 @@ export async function fetchPlanets() {
   }
 }
 ```
+
+### Secrets Manager
+The secrets manager can be used to securely store secrets to be accessed from the backend.
+Access setret with 
+```
+const secret = await wixSecretsBackend.getSecret("secretName");
+```
+
+### NPM Packages
+Can install common packages like lodash, stripe, axios, twilio, crypto, node-mailer. Can request packages that are not already offered, and they will be accepted or rejected within 48 hours.
+
+### Velo Packages
+Velo Packages is Wix's version of npm. First install it, then import the required functions in your code.
+
+### Scheduled Jobs
+Scheduled jobs will only run on a published site!  You cannot schedule a job to run more than once per hour. A job may not actually run exactly on time. The function to be executed must be exported. Use the validator tool in the automatically generated jobs file to create a cron expression. 
+
+
+### Expose APIs
+Create a plain .js file (not a web module) in the backend folder.
+
+```
+import { created, serverError, ok } from 'wix-http-functions';
+import wixData from 'wix-data';
+
+export function post_mySubmission(request){
+  let options = {
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+
+  //get the request body
+  return request.body.text()
+    .then((body) => {
+      return wixData.insert("collectionName", JSON.parse(body));
+    })
+    .then((results) => {
+      options.body = {
+        "Message": results
+      };
+      return created(options);
+    })
+    .catch((error) => {
+      options.body = {
+        "error": error
+      };
+      return serverError(options);
+    });
+}
+
+const getResponse = (body) => {
+  return {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body
+  }
+}
+
+export async function get_listAllPlanets(request){
+  const { items: planets } = await wixData.query("Galaxy").include("planet").find();
+  const response = getResponse([planets]);
+  return ok(response);
+}
+```
+
+
+
+
+
+

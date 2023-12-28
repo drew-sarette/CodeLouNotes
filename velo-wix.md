@@ -181,6 +181,17 @@ export function get_myFunction(request) {
 
 ```
 
+## Frontend
+No access to html or css, only javascript and Wix's APIs.
+Can access elements using the $w("elementId") api. Rename elements IDs in the properties panel.
+Static events can be programmed in the properties panel.
+Dynamic event hanlers can be added like this:
+```
+$w("elementId").onClick = () =>
+```
+
+
+
 
 
 
